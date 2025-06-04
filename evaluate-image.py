@@ -2,7 +2,6 @@ import cv2
 import numpy as np
 from keras.models import load_model
 
-
 # Classify fresh/rotten
 def print_fresh(res):
     threshold_fresh = 0.10  # set according to standards
@@ -13,7 +12,6 @@ def print_fresh(res):
         print("The item is MEDIUM FRESH")
     else:
         print("The item is NOT FRESH")
-
 
 def pre_proc_img(image_path):
     # Read the image using OpenCV
@@ -26,18 +24,16 @@ def pre_proc_img(image_path):
     img = np.expand_dims(img, axis=0)
     return img
 
-
 def evaluate_rotten_vs_fresh(image_path):
-    # Load the trained model
-    model = load_model('trained-freshness-model.h5')
+    model = load_model('rottenvsfresh98pval.h5')
 
     # Read and process and predict
     prediction = model.predict(pre_proc_img(image_path))
 
     return prediction[0][0]
 
-
 # Example usage:
-img_path = 'image-to-eval.png'
+img_path = 'image-to-eval.png'  # この画像がルートに必要
 is_rotten = evaluate_rotten_vs_fresh(img_path)
-print(f'Predicted class: {is_rotten}',print_fresh(is_rotten))
+print(f'Predicted class: {is_rotten}')
+print_fresh(is_rotten)
